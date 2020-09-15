@@ -86,8 +86,8 @@ def benchmark_modification(nb_headers, nb_fields, mod_type):
     program += forward_table()
 
     table_name = 'test_tbl'
-    program += add_table_no_match(table_name, '\t\t{0};'.format(action_name))
-
+    match = 'ptp.reserved2 : exact;'
+    program += add_table(table_name, match, '\t\t{0};'.format(action_name), 4)
 
     program += control(fwd_tbl, apply_table(table_name))
 
