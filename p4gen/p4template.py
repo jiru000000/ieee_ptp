@@ -16,7 +16,6 @@ def read_template(filename, binding={}):
     """
     src = Template(resource_string(__name__, filename))
     src.template = src.template.decode()
-    print(src.safe_substitute(binding))
     return (src.safe_substitute(binding))
 
 def p4_define():
