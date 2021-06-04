@@ -61,7 +61,7 @@ def vary_header_field(nb_fields):
 def add_padding(pkt, packet_size):
     pad_len = packet_size - len(pkt)
     if pad_len < 0:
-        print "Packet size [%d] is greater than expected %d" % (len(pkt), packet_size)
+        print ("Packet size [%d] is greater than expected %d" % (len(pkt), packet_size))
     else:
         pad = '\x00' * pad_len
         pkt = pkt/pad

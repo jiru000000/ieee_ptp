@@ -173,7 +173,7 @@ if __name__=='__main__':
 
     delays = PacketDelay(10, 5, 25, 100, args.nb_packets)
     ports = []
-    print "Sending", args.nb_packets, "packets ..."
+    print ("Sending", args.nb_packets, "packets ...")
     for d in delays:
         # pkt.show()
         send_socket.send(str(pkt))
@@ -186,7 +186,7 @@ if __name__=='__main__':
         ports.append(iface_map[iface])
         iface, pkt = queue.get()
     # print ports
-    print "DISTRIBUTION..."
+    print ("DISTRIBUTION...")
     for p in port_map:
         c = ports.count(p)
-        print "port {}: {:>3} [ {:>5}% ]".format(p, c, 100. * c / args.nb_packets)
+        print ("port {}: {:>3} [ {:>5}% ]".format(p, c, 100. * c / args.nb_packets))

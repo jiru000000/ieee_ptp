@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
@@ -77,7 +77,7 @@ def main():
         parser.print_help()
         sys.exit(0)
 
-    print "Generate files to 'output' directory"
+    print ("Generate files to 'output' directory")
 
 if __name__=='__main__':
     main()
