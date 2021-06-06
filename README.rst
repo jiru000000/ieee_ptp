@@ -112,10 +112,10 @@ PCAP file and sniffs for returning packets
 
 Requrire `cmake` and `libpcap`:: 
 
-your home dir path:
+    home path:
     $ sudo apt-get install libpcap-dev
 
-your p4benchmark path:
+    p4benchmark path:
     $ cd pktgen
     $ mkdir build
     $ cd build
