@@ -125,8 +125,8 @@ Requrire `cmake` and `libpcap`::
 **Run pktgen**
 
 This packet generator reads the prepared PCAP file and send `c` copies of that
-packet at `t` Byte per second out of the interface `veth4`. The result is stored
+packet at `t` Byte per second out of the interface `wlp4s0`. The result is stored
 in the `result` directory::
 
     $ p4benchmark/pktgen/build
-    $ sudo ./p4benchmark -p ../../output/test.pcap -i veth4 -c 10000 -t 10000 -o result
+    $ sudo ./p4benchmark -p ../../output/test.pcap -i wlp4s0 -c 10000 -t 10000 -o result
