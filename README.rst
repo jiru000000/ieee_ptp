@@ -110,7 +110,10 @@ PCAP file and sniffs for returning packets
 
 **Build**
 
-Requrire `cmake` and `libpcap`::
+Requrire `cmake` and `libpcap`:: 
+
+    cd ~
+    sudo apt-get install libpcap-dev
 
     cd pktgen
     mkdir build
