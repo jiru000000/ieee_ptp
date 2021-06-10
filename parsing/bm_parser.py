@@ -130,7 +130,7 @@ def parser_complexity(depth, fanout):
        os.makedirs(output_dir)
     program = add_forwarding_table(output_dir, program)
     write_output(output_dir, program)
-    get_parser_header_pcap(depth+1, 1, output_dir)
+    get_parser_header_pcap(depth, 1, output_dir)
 
     return True
 
@@ -148,11 +148,14 @@ def add_headers_and_parsers(nb_headers, nb_fields, do_checksum=False):
 
     """
     program = p4_define() + ethernet_header() + ptp_header() + parser_start()
-
+    #print('flag1')
+    #print(program)
     next_headers = select_case('ETHERTYPE_PTP', 'parse_ptp')
     next_headers += select_case('default', 'ingress')
     program += add_parser('ethernet_t', 'ethernet', 'parse_ethernet',
                             'etherType', next_headers)
+    #print('flag2')
+    #print(program)
 
     ptp_next_states = ''
     if (nb_headers > 0):
@@ -160,10 +163,15 @@ def add_headers_and_parsers(nb_headers, nb_fields, do_checksum=False):
     ptp_next_states += select_case('default', 'ingress')
     program += add_parser('ptp_t', 'ptp', 'parse_ptp',
                             'reserved2', ptp_next_states)
+    #print('flag3')
+    #print(program)
+
 
     field_dec = ''
     for i in range(nb_fields):
         field_dec += add_header_field('field_%d' % i, 16)
+    #print('flag3')
+    #print(field_dec)
 
     for i in range(nb_headers):
         header_type_name = 'header_%d_t' % i
@@ -214,8 +222,9 @@ def benchmark_parser_with_header_field(nb_fields, do_checksum=False):
     output_dir = 'output'
     if not os.path.exists(output_dir):
        os.makedirs(output_dir)
-    program  = add_headers_and_parsers(1, nb_fields, do_checksum)
+    program = add_headers_and_parsers(1, nb_fields, do_checksum)
     program = add_forwarding_table(output_dir, program)
+
     write_output(output_dir, program)
     get_parser_field_pcap(nb_fields, output_dir)
     generate_pisces_command(output_dir, 1, nb_fields)

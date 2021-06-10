@@ -145,17 +145,19 @@ if __name__=='__main__':
     pkt = pkts[0]
 
     port_map = {
-        0: "veth0",
-        1: "veth2",
-        2: "veth4",
+        0: "wlp4s0",
+        #0: "veth0",
+        #1: "veth2",
+        #2: "veth4",
     }
 
     iface_map = {}
     for p, i in port_map.items():
         iface_map[i] = p
 
-    queue.add_iface("veth2")
-    queue.add_iface("veth4")
+    queue.add_iface("wlp4s0")
+    #queue.add_iface("veth2")
+    #queue.add_iface("veth4")
 
     for p, iface in port_map.items():
         t = SnifferThread(iface)

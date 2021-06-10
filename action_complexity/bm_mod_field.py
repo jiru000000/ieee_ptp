@@ -2,7 +2,7 @@ import os
 from subprocess import call
 from pkg_resources import resource_filename
 from p4gen.genpcap import get_set_field_pcap
-from p4gen.genpcap import set_custom_field_pcap
+from p4gen.genpcap import set_custom_field_pcap, ptp_generator
 from p4gen import copy_scripts
 from parsing.bm_parser import add_headers_and_parsers
 from p4gen.p4template import *
@@ -109,7 +109,10 @@ def benchmark_field_write(nb_operations, do_checksum=False):
     with open ('%s/commands.txt' % out_dir, 'w') as out:
         out.write(commands)
     copy_scripts(out_dir)
-    set_custom_field_pcap(nb_operations, out_dir, packet_size=256)
+    set_custom_field_pcap = ptp_generator('0C:C4:7A:A3:25:34', '0C:C4:7A:A3:25:35', 'DelayReq', nb_operations, 1, 256, out_dir)
+    set_custom_field_pcap.set_custom_field_pcap()
+    #set_custom_field_pcap(nb_operations, out_dir, packet_size=256)
+    #set_custom_field_pcap(nb_operations, out_dir)
     generate_pisces_command(nb_operations, out_dir, do_checksum)
     return True
 

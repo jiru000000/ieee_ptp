@@ -73,21 +73,24 @@ def benchmark_modification(nb_headers, nb_fields, mod_type):
 
     program  = add_headers_and_parsers(nb_headers, nb_fields)
 
-    if mod_type == 'add':
+    if mod_type == 'multi':
+        action_name = 'multi_ptp'
+        program += benchmark_add_header_overhead(action_name, nb_headers)
+    elif mod_type == 'add':
         action_name = 'add_headers'
         program += benchmark_add_header_overhead(action_name, nb_headers)
     elif mod_type == 'rm':
         action_name = 'remove_headers'
         program += benchmark_remove_header_overhead(action_name, nb_headers)
-    elif mod_type == 'mod':
-        action_name = 'mod_headers'
-        program += benchmark_modify_header_overhead(action_name, nb_headers)
+    #elif mod_type == 'mod':
+    #    action_name = 'mod_headers'
+    #    program += benchmark_modify_header_overhead(action_name, nb_headers)
 
     program += forward_table()
 
     table_name = 'test_tbl'
-    match = 'ptp.reserved2 : exact;'
-    program += add_table(table_name, match, '\t\t{0};'.format(action_name), 4)
+    program += add_table_no_match(table_name, '\t\t{0};'.format(action_name))
+
 
     program += control(fwd_tbl, apply_table(table_name))
 

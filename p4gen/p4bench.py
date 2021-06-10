@@ -9,7 +9,7 @@ import argparse
 from parsing.bm_parser import benchmark_parser_header
 from parsing.bm_parser import benchmark_parser_with_header_field
 from parsing.bm_parser import parser_complexity
-from processing.bm_pipeline import benchmark_pipeline
+from processing.bm_pipeline import benchmark_pipeline,benchmark_ptp_ipv4
 from state_access.bm_memory import benchmark_memory
 from packet_modification.bm_modification import benchmark_modification
 from action_complexity.bm_mod_field import benchmark_field_write
@@ -18,7 +18,9 @@ from action_complexity.bm_mod_field import benchmark_field_write
 features = ['parse-header', 'parse-field', 'parse-complex', # Parsing
             'set-field',                                    # Action complexity
             'add-header', 'rm-header',                      # Packet Modification
+            'multi-ptp',                                    # Packet Multi PTP
             'pipeline',                                     # Processing Pipeline
+            'ptp-ipv4',                                     # Processing ipv4
             'read-state', 'write-state'                     # State Access
             ]
 
@@ -50,23 +52,26 @@ def main():
     # Parser Action complexity
     parser.add_argument('--operations', default=1, type=int,
                             help='the number of set-field/read/write operations')
-
     args = parser.parse_args()
 
-    if args.feature == 'parse-header':
+    if args.feature == 'parse-header':  #merge
         benchmark_parser_header(args.headers, args.fields, do_checksum=args.checksum)
-    elif args.feature == 'parse-field':
+    elif args.feature == 'parse-field': #merge
         benchmark_parser_with_header_field(args.fields, do_checksum=args.checksum)
-    elif args.feature == 'parse-complex':
+    elif args.feature == 'parse-complex':#merge fanout?
         parser_complexity(args.depth, args.fanout)
-    elif args.feature == 'set-field':
+    elif args.feature == 'set-field':    #merge vip
         benchmark_field_write(args.operations, do_checksum=args.checksum)
-    elif args.feature == 'add-header':
+    elif args.feature == 'multi-ptp':    #specify
+        benchmark_modification(args.headers, args.fields, 'multi')
+    elif args.feature == 'add-header':   #no care xx
         benchmark_modification(args.headers, args.fields, 'add')
-    elif args.feature == 'rm-header':
+    elif args.feature == 'rm-header':    #may no care
         benchmark_modification(args.headers, args.fields, 'rm')
-    elif args.feature == 'pipeline':
+    elif args.feature == 'pipeline':     #no care xx
         benchmark_pipeline(args.tables, args.table_size)
+    elif args.feature == 'ptp-ipv4':
+        benchmark_ptp_ipv4(args.tables, args.table_size)
     elif args.feature == 'read-state':
         benchmark_memory(args.registers, args.element_width, args.nb_element,
                             args.operations, False)
